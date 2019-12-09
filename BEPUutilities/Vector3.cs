@@ -140,6 +140,16 @@ namespace BEPUutilities
             difference.Y = a.Y - b.Y;
             difference.Z = a.Z - b.Z;
         }
+
+        public static Vector3 Subtract(Vector3 a,Vector3 b)
+        {
+			Vector3 difference;
+            difference.X = a.X - b.X;
+            difference.Y = a.Y - b.Y;
+            difference.Z = a.Z - b.Z;
+			return difference;
+        }
+
         /// <summary>
         /// Scales a vector.
         /// </summary>
