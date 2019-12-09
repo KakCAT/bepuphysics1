@@ -28,6 +28,7 @@ namespace BEPUphysicsDemos.Demos
 
             game.Camera.Position = new Vector3(-10, 7, 5);
             game.Camera.ViewDirection = new Vector3(0, 0, 1);
+
             //Since this is the character playground, turn on the character by default.
             character.Activate();
             //Having the character body visible would be a bit distracting.
@@ -42,7 +43,7 @@ namespace BEPUphysicsDemos.Demos
             //This is a little convenience method used to extract vertices and indices from a model.
             //It doesn't do anything special; any approach that gets valid vertices and indices will work.
             ModelDataExtractor.GetVerticesAndIndicesFromModel(playgroundModel, out staticTriangleVertices, out staticTriangleIndices);
-            var staticMesh = new StaticMesh(staticTriangleVertices, staticTriangleIndices, new AffineTransform(new Vector3(0.01f, 0.01f, 0.01f), Quaternion.Identity, new Vector3(0, 0, 0)));
+            var staticMesh = new StaticMesh (staticTriangleVertices, staticTriangleIndices, new AffineTransform(new Vector3(0.01f, 0.01f, 0.01f), Quaternion.Identity, new Vector3(0, 0, 0)));
             staticMesh.Sidedness = TriangleSidedness.Counterclockwise;
 
             Space.Add(staticMesh);

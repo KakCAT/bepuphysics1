@@ -516,7 +516,7 @@ namespace BEPUphysics.Character
         }
 
 
-        internal bool IsSideContactObstructive(ref ContactData contact)
+        public bool IsSideContactObstructive(ref ContactData contact)
         {
             //Can't stand up or step down if there are new side contacts that are too deep.
             //If the contact has less than the allowed penetration depth, allow it.

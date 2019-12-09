@@ -30,7 +30,7 @@ namespace BEPUphysicsDemos.Demos.Extras.Tests
                     points.Add(new Vector3(-100 + 30 * (float)random.NextDouble(), 100 + 500 * (float)random.NextDouble(), 100 + 30 * (float)random.NextDouble()));
                 }
                 var convexHull = new ConvexHull(new Vector3(0, 7, 0), points, 10);
-                Console.WriteLine(convexHull.CollisionInformation.Shape.Vertices.Count);
+                //Console.WriteLine(convexHull.CollisionInformation.Shape.Vertices.Count);
             }
             
             var vertices = new[] 

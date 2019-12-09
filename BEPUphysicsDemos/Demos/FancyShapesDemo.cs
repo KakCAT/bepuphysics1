@@ -11,6 +11,14 @@ namespace BEPUphysicsDemos.Demos
     /// </summary>
     public class FancyShapesDemo : StandardDemo
     {
+		Vector3 pointInCircleRadius (float radi,int nPart,int nParts)
+		{
+			float angle=nPart/(float)nParts;
+			double x=Math.Cos (angle*2*Math.PI);
+			double y=Math.Sin (angle*2*Math.PI);
+			return radi*new Vector3 ((float)x,0,(float)y);
+		}
+
         /// <summary>
         /// Constructs a new demo.
         /// </summary>
@@ -22,6 +30,22 @@ namespace BEPUphysicsDemos.Demos
 
             var points = new List<Vector3>();
 
+			float radi=2;
+			float cylHeight=6;
+
+			for (int i=0;i<32;i++)
+			{
+				var pos=pointInCircleRadius (radi,i,32);
+				points.Add (pos);
+				points.Add (pos + new Vector3 (0,cylHeight,0));
+			}
+
+			var convexHull = new ConvexHull(new Vector3(0, 7, 0), points, 10);
+
+			Space.Add(convexHull);
+
+
+/*
 
             //Setup a random distribution in a cube and compute a convex hull.
             var random = new Random(0);
@@ -105,7 +129,7 @@ namespace BEPUphysicsDemos.Demos
             transform.M13 = .5f;
             var transformable = new TransformableEntity(new Vector3(0, 0, 4), new BoxShape(1, 1, 1), transform, 10);
             Space.Add(transformable);
-
+*/
 
             Space.Add(new Box(new Vector3(0, -10, 0), 70, 5, 70));
 

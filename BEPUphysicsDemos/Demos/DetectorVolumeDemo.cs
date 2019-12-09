@@ -6,6 +6,9 @@ using BEPUphysics.NarrowPhaseSystems.Pairs;
 using BEPUphysicsDrawer.Models;
 using Microsoft.Xna.Framework.Graphics;
 using BEPUutilities;
+using System.Collections.Generic;
+using BEPUphysics.CollisionShapes;
+using BEPUphysics.CollisionShapes.ConvexShapes;
 
 namespace BEPUphysicsDemos.Demos
 {
@@ -37,16 +40,16 @@ namespace BEPUphysicsDemos.Demos
 
             //The detector volume works on all of the entity types:
             //Convexes!
-            testEntity = new Box(new Vector3(0, -10, 0), 1, 1, 1);
+            //testEntity = new Box(new Vector3(0, -10, 0), 1, 1, 1);
 
             //Compounds!
-            //var bodies = new List<CompoundShapeEntry>
-            //{
-            //    new CompoundShapeEntry(new SphereShape(.5f), new Vector3(0, -8.2f, 0), 1),
-            //    new CompoundShapeEntry(new SphereShape(.5f), new Vector3(0, -9f, 0), 1),
-            //    new CompoundShapeEntry(new SphereShape(.5f), new Vector3(0, -9.8f, 0), 1)
-            //};
-            //testEntity = new CompoundBody(bodies);
+            var bodies = new List<CompoundShapeEntry>
+            {
+                new CompoundShapeEntry(new SphereShape(.5f), new Vector3(0, -8.2f, 0), 1),
+                new CompoundShapeEntry(new SphereShape(.5f), new Vector3(0, -9f, 0), 1),
+                new CompoundShapeEntry(new SphereShape(.5f), new Vector3(0, -9.8f, 0), 1)
+            };
+            testEntity = new CompoundBody(bodies);
 
             //Mobile meshes!
             //model = game.Content.Load<Model>("tube");

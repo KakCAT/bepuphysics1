@@ -108,9 +108,9 @@ namespace BEPUphysicsDemos.Demos
             //Add some extra stuff to the space.
             Space.Add(new Box(new Vector3(0, -5, 0), 25, 10, 25));
 
-            int numColumns = 7;
-            int numRows = 7;
-            int numHigh = 3;
+            int numColumns = 1;
+            int numRows = 1;
+            int numHigh = 0;
             float xSpacing = 2.09f;
             float ySpacing = 2.08f;
             float zSpacing = 2.09f;

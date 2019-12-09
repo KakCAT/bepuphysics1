@@ -117,7 +117,7 @@ namespace BEPUphysics.Character
         public MovementMode MovementMode { get; set; }
 
 
-        internal Vector3 movementDirection3d;
+        /*internal */public Vector3 movementDirection3d;
 
         /// <summary>
         /// Gets the 3d movement direction, as updated in the previous call to UpdateMovementBasis.

@@ -33,6 +33,11 @@ namespace BEPUphysics.Character
         /// </summary>
         public StepManager StepManager { get; private set; }
 
+		//=============================================================================
+		/// <summary>True if in there was a step up/down. Previously. User must put it to false (because
+		/// update can be run twice o thrice before a draw. </summary>
+		public bool StepUpDownHappened { get; set; } 
+
         /// <summary>
         /// Gets the manager responsible for crouching, standing, and the verification involved in changing states.
         /// </summary>
@@ -43,6 +48,7 @@ namespace BEPUphysics.Character
         /// </summary>
         public QueryManager QueryManager { get; private set; }
 
+		
         /// <summary>
         /// Gets the constraint used by the character to handle horizontal motion.  This includes acceleration due to player input and deceleration when the relative velocity
         /// between the support and the character exceeds specified maximums.
@@ -612,6 +618,7 @@ namespace BEPUphysics.Character
                     StepManager.TryToStepUp(out newPosition))
                 {
                     supportData = TeleportToPosition(newPosition, dt);
+					StepUpDownHappened=true;
                 }
 
                 if (StanceManager.UpdateStance(out newPosition))
