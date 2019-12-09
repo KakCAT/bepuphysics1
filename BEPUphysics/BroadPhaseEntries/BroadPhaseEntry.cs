@@ -42,7 +42,7 @@ namespace BEPUphysics.BroadPhaseEntries
         private Action collisionRulesUpdatedDelegate;
         protected abstract void CollisionRulesUpdated();
 
-        protected internal BoundingBox boundingBox;
+        public BoundingBox boundingBox;
         /// <summary>
         /// Gets or sets the bounding box of the entry.
         /// </summary>

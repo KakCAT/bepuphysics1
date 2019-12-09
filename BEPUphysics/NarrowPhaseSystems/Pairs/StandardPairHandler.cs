@@ -197,7 +197,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         /// <summary>
         /// Gets the number of contacts associated with this pair handler.
         /// </summary>
-        protected internal override int ContactCount
+        public override int ContactCount
         {
             get { return ContactManifold.contacts.Count; }
         }

@@ -43,7 +43,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         /// </summary>
         internal int listIndexB = -1;
 
-        protected internal abstract int ContactCount { get; }
+        public abstract int ContactCount { get; }
 
 
 
