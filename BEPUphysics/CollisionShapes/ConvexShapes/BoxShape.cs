@@ -214,6 +214,11 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             float inverseDirection = 1 / localDirection.X;
             float t1 = (-halfWidth - localOrigin.X) * inverseDirection;
             float t2 = (halfWidth - localOrigin.X) * inverseDirection;
+
+			// kak code
+			if (float.IsNaN (t1)) t1=float.Infinity;
+			if (float.IsNaN (t2)) t2=float.Infinity;
+
             var tempNormal = new Vector3(-1, 0, 0);
             if (t1 > t2)
             {
@@ -234,6 +239,11 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             inverseDirection = 1 / localDirection.Y;
             t1 = (-halfHeight - localOrigin.Y) * inverseDirection;
             t2 = (halfHeight - localOrigin.Y) * inverseDirection;
+
+			// kak code
+			if (float.IsNaN (t1)) t1=float.Infinity;
+			if (float.IsNaN (t2)) t2=float.Infinity;
+
             tempNormal = new Vector3(0, -1, 0);
             if (t1 > t2)
             {
@@ -254,6 +264,11 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             inverseDirection = 1 / localDirection.Z;
             t1 = (-halfLength - localOrigin.Z) * inverseDirection;
             t2 = (halfLength - localOrigin.Z) * inverseDirection;
+
+			// kak code
+			if (float.IsNaN (t1)) t1=float.Infinity;
+			if (float.IsNaN (t2)) t2=float.Infinity;
+
             tempNormal = new Vector3(0, 0, -1);
             if (t1 > t2)
             {
