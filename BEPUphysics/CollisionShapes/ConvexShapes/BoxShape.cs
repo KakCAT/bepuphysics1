@@ -216,8 +216,8 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             float t2 = (halfWidth - localOrigin.X) * inverseDirection;
 
 			// kak code
-			if (float.IsNaN (t1)) t1=float.Infinity;
-			if (float.IsNaN (t2)) t2=float.Infinity;
+			if (float.IsNaN (t1)) t1=float.MaxValue;
+			if (float.IsNaN (t2)) t2=float.MaxValue;
 
             var tempNormal = new Vector3(-1, 0, 0);
             if (t1 > t2)
@@ -241,8 +241,8 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             t2 = (halfHeight - localOrigin.Y) * inverseDirection;
 
 			// kak code
-			if (float.IsNaN (t1)) t1=float.Infinity;
-			if (float.IsNaN (t2)) t2=float.Infinity;
+			if (float.IsNaN (t1)) t1=float.MaxValue;
+			if (float.IsNaN (t2)) t2=float.MaxValue;
 
             tempNormal = new Vector3(0, -1, 0);
             if (t1 > t2)
@@ -266,8 +266,8 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             t2 = (halfLength - localOrigin.Z) * inverseDirection;
 
 			// kak code
-			if (float.IsNaN (t1)) t1=float.Infinity;
-			if (float.IsNaN (t2)) t2=float.Infinity;
+			if (float.IsNaN (t1)) t1=float.MaxValue;
+			if (float.IsNaN (t2)) t2=float.MaxValue;
 
             tempNormal = new Vector3(0, 0, -1);
             if (t1 > t2)
