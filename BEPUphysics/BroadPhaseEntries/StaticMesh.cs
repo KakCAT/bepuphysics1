@@ -50,17 +50,43 @@ namespace BEPUphysics.BroadPhaseEntries
             }
         }
 
-        ///<summary>
-        /// Constructs a new static mesh.
-        ///</summary>
-        ///<param name="vertices">Vertex positions of the mesh.</param>
-        ///<param name="indices">Index list of the mesh.</param>
-        public StaticMesh(Vector3[] vertices, int[] indices)
-        {
-            base.Shape = new StaticMeshShape(vertices, indices);
-            Events = new ContactEventManager<StaticMesh>();
+		///<summary>
+		/// Constructs a new static mesh.
+		///</summary>
+		///<param name="vertices">Vertex positions of the mesh.</param>
+		///<param name="indices">Index list of the mesh.</param>
+		public StaticMesh(Vector3[] vertices, int[] indices)
+		{
+			base.Shape = new StaticMeshShape(vertices, indices);
+			Events = new ContactEventManager<StaticMesh>();
+		}
 
-        }
+		///<summary>
+		/// Constructs a new static mesh with the data precalculated for the acceleration tree.
+		///</summary>
+		///<param name="vertices">Vertex positions of the mesh.</param>
+		///<param name="indices">Index list of the mesh.</param>
+		public StaticMesh(Vector3[] vertices, int[] indices,byte []nodeTypeData,BoundingBox []boundingBoxData,
+							int []leafNodeData
+							)
+		{
+			IgnoreShapeChanges=true;
+
+			base.Shape = new StaticMeshShape(vertices, indices);
+			Events = new ContactEventManager<StaticMesh>();
+
+			// something like this is called in OnShapeChanged, but we have to use this to create the 
+			// accelerated tree from the already calculated data
+			MeshBoundingBoxTree tree=MeshBoundingBoxTree.DeserializeTree (Shape.TriangleMeshData,
+				nodeTypeData,boundingBoxData,leafNodeData);
+
+			mesh = new TriangleMesh(Shape.TriangleMeshData,tree);
+			UpdateBoundingBox();
+
+			IgnoreShapeChanges=false;
+
+		}
+
 
         ///<summary>
         /// Constructs a new static mesh.

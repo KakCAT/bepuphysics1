@@ -48,6 +48,18 @@ namespace BEPUphysics.DataStructures
             tree = new MeshBoundingBoxTree(data);
         }
 
+       ///<summary>
+        /// Constructs a new triangle mesh.
+        ///</summary>
+        ///<param name="data">Data to use to construct the mesh.</param>
+		///<param name="precalculatedTree">Precalculated acceleration tree to speed up process by precalculating it.</param>
+        public TriangleMesh(MeshBoundingBoxTreeData data,MeshBoundingBoxTree precalculatedTree)
+        {
+            this.data = data;
+            tree = precalculatedTree;
+        }
+
+
         ///<summary>
         /// Tests a ray against the triangle mesh.
         ///</summary>

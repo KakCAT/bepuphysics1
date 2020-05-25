@@ -11,6 +11,7 @@ namespace BEPUphysics.DataStructures
     {
         MeshBoundingBoxTreeData data;
 
+		private bool _disableReconstruct=false;
 
         /// <summary>
         /// Gets the bounding box surrounding the tree.
@@ -49,9 +50,13 @@ namespace BEPUphysics.DataStructures
         /// Constructs a new tree.
         /// </summary>
         /// <param name="data">Data to use to construct the tree.</param>
-        public MeshBoundingBoxTree(MeshBoundingBoxTreeData data)
+        public MeshBoundingBoxTree(MeshBoundingBoxTreeData data,bool disableReconstruct=false)
         {
+			_disableReconstruct=disableReconstruct;
+
             Data = data;
+
+			_disableReconstruct=false;
         }
 
 
@@ -60,6 +65,8 @@ namespace BEPUphysics.DataStructures
         /// </summary>
         public void Reconstruct()
         {
+			if (_disableReconstruct) return;
+
             root = null;
             for (int i = 0; i < data.indices.Length; i += 3)
             {
@@ -208,6 +215,89 @@ namespace BEPUphysics.DataStructures
             }
             return outputOverlappedElements.Count > 0;
         }
+
+		//=============================================================================
+		/// <summary>Serializes the tree into 3 arrays</summary>
+		public void SerializeTree (out byte []nodeTypeArray,out BoundingBox []boundingBoxArray,out int []leafNodeValueArray)
+		{
+			var boundingBoxList=new List<BoundingBox> ();
+			var nodeTypeList=new List<byte>();
+			var leafNodeList=new List<int>();
+
+			DoSerialize (root);
+
+			boundingBoxArray=boundingBoxList.ToArray();
+			nodeTypeArray=nodeTypeList.ToArray();
+			leafNodeValueArray=leafNodeList.ToArray();
+
+			//=============================================================================
+			/// <summary></summary>
+			void DoSerialize (Node node)
+			{
+				boundingBoxList.Add (node.BoundingBox);
+
+				if (node.IsLeaf)
+				{
+					LeafNode ln=node as LeafNode;
+					nodeTypeList.Add (1);
+					leafNodeList.Add (ln.LeafIndex);
+				}
+				else
+				{
+					InternalNode ind=node as InternalNode;
+
+					nodeTypeList.Add (0);
+					DoSerialize (ind.ChildA);
+					DoSerialize (ind.ChildB);
+				}
+			}
+		}
+
+		//=============================================================================
+		/// <summary></summary>
+		public static MeshBoundingBoxTree DeserializeTree (MeshBoundingBoxTreeData _data,
+							byte []nodeTypes,
+							BoundingBox []boundingBoxes,
+							int []leafNodes)
+		{
+		int i,leafNodeCount;
+
+			MeshBoundingBoxTree rv=new MeshBoundingBoxTree (_data,true);
+			Queue<Node> nodeQueue=new Queue<Node>();
+
+			i=0;
+			leafNodeCount=0;
+
+			rv.root = processNode (null);
+
+			return rv;
+
+			//=============================================================================
+			/// <summary></summary>
+			Node processNode (Node parent)
+			{
+				if (nodeTypes[i]==0)
+				{
+					InternalNode node=new InternalNode ();
+					node.BoundingBox=boundingBoxes[i];
+					i++;
+
+					node.ChildA=processNode (node);
+					node.ChildB=processNode (node);
+					return node;
+				}
+				else
+				{
+					LeafNode node=new LeafNode(leafNodes[leafNodeCount++],_data);
+					node.BoundingBox=boundingBoxes[i];
+					i++;
+
+					return node;
+				}
+			}
+
+		}
+
 
         abstract class Node
         {
@@ -398,7 +488,7 @@ namespace BEPUphysics.DataStructures
         public static float LeafMargin = .001f;
         sealed class LeafNode : Node
         {
-            int LeafIndex;
+            internal int LeafIndex { get; private set; }
 
             internal override bool IsLeaf
             {
