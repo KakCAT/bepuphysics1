@@ -26,6 +26,42 @@ namespace BEPUphysics.DataStructures
             }
         }
 
+
+#region Triangle hit logging mode
+/*
+We need the exact triangle that is hit in a StaticMesh, in order to know which kind of sound the footsteps
+of the characters must do. In order to do so, we'll have a logging triangle mode which will record the nearest 
+triangle hit during the raycast check. Must be enable and disabled before/after using it.
+*/
+		//=============================================================================
+		/// <summary> </summary>
+		public static bool logTriangleHitMode
+		{
+			get
+			{
+				return _logTriangleHitMode;
+			}
+
+			set
+			{
+				_logTriangleHitMode=value;
+				if (_logTriangleHitMode)
+				{
+					nearestHitTriangle.distanceToHit=float.MaxValue;
+				}
+			}
+		}
+		private static bool _logTriangleHitMode;
+
+		public struct HitTriangleInfo
+		{
+			public float distanceToHit;
+			public int indexOffset;
+		}
+		public static HitTriangleInfo nearestHitTriangle=new HitTriangleInfo ();
+
+#endregion
+
         private MeshBoundingBoxTree tree;
         ///<summary>
         /// Gets the bounding box tree that accelerates queries to this triangle mesh.
@@ -193,6 +229,15 @@ namespace BEPUphysics.DataStructures
                 if (Toolbox.FindRayTriangleIntersection(ref ray, maximumLength, sidedness, ref v1, ref v2, ref v3, out hit))
                 {
                     hits.Add(hit);
+
+					if (_logTriangleHitMode)
+					{
+						if (hit.T<nearestHitTriangle.distanceToHit)
+						{
+							nearestHitTriangle.distanceToHit=hit.T;
+							nearestHitTriangle.indexOffset=hitElements[i];		// record the offset of the triangle indices
+						}
+					}
                 }
             }
             CommonResources.GiveBack(hitElements);
